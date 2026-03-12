@@ -20,29 +20,26 @@
             position: relative;
         }
 
-        /* Твой кастомный фон на весь экран */
-        body::before {
-            content: '';
-            position: absolute;
+        /* Твой фон на весь экран */
+        .background {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('background.jpg') no-repeat center center;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/Spng5nl.jpeg') no-repeat center center;
             background-size: cover;
-            filter: brightness(0.7) contrast(1.1);
             z-index: -2;
         }
 
-        /* Затемнение */
-        body::after {
-            content: '';
-            position: absolute;
+        /* Затемнение фона */
+        .overlay {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(10,10,20,0.6), rgba(10,10,20,0.8));
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
@@ -67,146 +64,143 @@
         }
 
         .logo {
-            width: 200px;
+            width: 180px;
             height: auto;
-            filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6));
-            animation: logoGlow 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(0, 150, 255, 0.6));
         }
 
-        @keyframes logoGlow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.7)); }
+        /* Центральная часть с названием */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
         }
 
-        /* Информация о сервере справа внизу */
+        .welcome-text {
+            font-size: 18px;
+            color: #ff8c00;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        .server-name {
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 
+                0 0 20px rgba(255, 140, 0, 0.8),
+                0 0 40px rgba(255, 140, 0, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 140, 0, 0.8),
+                    0 0 40px rgba(255, 140, 0, 0.5),
+                    0 4px 8px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(255, 140, 0, 1),
+                    0 0 60px rgba(255, 140, 0, 0.8),
+                    0 4px 8px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        .server-mode {
+            font-size: 20px;
+            color: #ccc;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        /* Информация о сервере (справа или по центру) */
         .server-info {
             position: absolute;
-            bottom: 40px;
-            right: 40px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 25px 35px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.2);
-            backdrop-filter: blur(10px);
-            min-width: 300px;
-            animation: fadeInRight 1s ease-out 0.3s both;
-        }
-
-        @keyframes fadeInRight {
-            from { 
-                opacity: 0; 
-                transform: translateX(30px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateX(0); 
-            }
-        }
-
-        .server-title {
-            font-size: 32px;
-            margin-bottom: 5px;
-            background: linear-gradient(to right, #ff8c00, #ffa500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 3s linear infinite;
-            letter-spacing: 2px;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        .server-subtitle {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #ff8c00;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .info-value {
-            color: #fff;
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        /* Индикатор загрузки по центру внизу */
-        .loading-container {
-            position: absolute;
-            bottom: 40px;
+            bottom: 150px;
             left: 50%;
             transform: translateX(-50%);
-            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(5px);
             animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translateY(20px); 
+                transform: translate(-50%, 20px); 
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0); 
+                transform: translate(-50%, 0); 
             }
         }
 
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 140, 0, 0.2);
-            border-top: 4px solid #ff8c00;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            animation: spin 1s linear infinite;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            gap: 40px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .info-label {
+            color: #ff8c00;
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 100px;
+            text-align: left;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        /* Индикатор загрузки внизу по центру */
+        .loading-container {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 600px;
+            animation: fadeInUp 1s ease-out 0.8s both;
         }
 
         .loading-text {
-            font-size: 16px;
-            color: #ccc;
-            margin-bottom: 15px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            font-size: 14px;
+            color: #ff8c00;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .progress-container {
-            width: 400px;
-            height: 6px;
+            width: 100%;
+            height: 8px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
         }
 
         .progress-bar {
@@ -214,12 +208,12 @@
             background: linear-gradient(90deg, #ff8c00, #ffa500, #ff6b00);
             background-size: 200% 100%;
             animation: progress 4s ease-out infinite, gradient 2.5s linear infinite;
-            box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
         }
 
         @keyframes progress {
             0% { width: 0%; }
-            60% { width: 80%; }
+            60% { width: 85%; }
             100% { width: 100%; }
         }
 
@@ -228,21 +222,55 @@
             100% { background-position: 200% center; }
         }
 
+        /* Lambda символ слева внизу */
+        .lambda {
+            position: absolute;
+            bottom: 80px;
+            left: 40px;
+            width: 50px;
+            height: 50px;
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Tip текст внизу */
+        .tip-container {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .tip-label {
+            color: #ff8c00;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
         /* LEGACY бейдж */
         .legacy-badge {
             position: absolute;
             bottom: 40px;
-            left: 40px;
+            right: 40px;
             padding: 6px 16px;
             background: rgba(255, 140, 0, 0.15);
             border: 1px solid rgba(255, 140, 0, 0.3);
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             color: #ff8c00;
             letter-spacing: 3px;
             text-transform: uppercase;
             font-weight: 600;
-            animation: fadeIn 1s ease-out 0.9s both;
         }
 
         @keyframes fadeIn {
@@ -250,38 +278,47 @@
             to { opacity: 1; }
         }
 
-        /* Адаптив для маленьких экранов */
+        /* Адаптив */
         @media (max-width: 768px) {
+            .server-name {
+                font-size: 42px;
+            }
+            .server-mode {
+                font-size: 14px;
+                letter-spacing: 3px;
+            }
             .logo {
-                width: 150px;
+                width: 120px;
             }
             .server-info {
-                position: relative;
-                bottom: auto;
-                right: auto;
-                margin: 20px;
-                margin-top: 250px;
+                width: 90%;
+                padding: 15px 20px;
             }
             .loading-container {
-                bottom: 20px;
-            }
-            .progress-container {
-                width: 300px;
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Фон -->
+    <div class="background"></div>
+    <div class="overlay"></div>
+
     <!-- Логотип слева вверху -->
     <div class="logo-container">
         <img src="logo.png" alt="FLUX" class="logo">
     </div>
 
-    <!-- Информация о сервере справа внизу -->
+    <!-- Центральная часть -->
+    <div class="center-content">
+        <div class="welcome-text">Welcome to</div>
+        <h1 class="server-name">FLUX CITY5</h1>
+        <div class="server-mode">Half-Life 2 Roleplay</div>
+    </div>
+
+    <!-- Информация о сервере -->
     <div class="server-info">
-        <h1 class="server-title">FLUX CITY5</h1>
-        <div class="server-subtitle">Half-Life 2 Roleplay</div>
-        
         <div class="info-row">
             <span class="info-label">🎮 Режим:</span>
             <span class="info-value">HL2RP</span>
@@ -300,16 +337,26 @@
         </div>
     </div>
 
-    <!-- Индикатор загрузки по центру внизу -->
+    <!-- Загрузка -->
     <div class="loading-container">
-        <div class="loader"></div>
-        <div class="loading-text">Загрузка ресурсов...</div>
+        <div class="loading-text">Downloading addons...</div>
         <div class="progress-container">
             <div class="progress-bar"></div>
         </div>
     </div>
 
-    <!-- LEGACY бейдж слева внизу -->
+    <!-- Lambda символ -->
+    <svg class="lambda" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 10 L80 90 L65 90 L50 50 L35 90 L20 90 Z" fill="#ff8c00" opacity="0.8"/>
+    </svg>
+
+    <!-- Tip текст -->
+    <div class="tip-container">
+        <span class="tip-label">TIP:</span>
+        <span>Follow the server rules and report any bugs</span>
+    </div>
+
+    <!-- LEGACY бейдж -->
     <div class="legacy-badge">⚡ LEGACY ⚡</div>
 </body>
 </html>

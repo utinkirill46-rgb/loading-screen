@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLUX CITY5 - Загрузка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Твой кастомный фон */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://i.imgur.com/Spng5nl.jpeg') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.6) contrast(1.1);
+            z-index: -2;
+        }
+
+        /* Затемнение + виньетка */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.7) 100%),
+                linear-gradient(to bottom, rgba(10,10,20,0.8), rgba(10,10,20,0.95));
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 
+                0 0 60px rgba(255, 140, 0, 0.2),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            max-width: 650px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px) scale(0.98); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        /* Логотип */
+        .logo-container {
+            margin-bottom: 25px;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 150, 255, 0.7)); }
+        }
+
+        .logo {
+            max-width: 280px;
+            height: auto;
+            /* Убираем белый фон если он есть */
+            mix-blend-mode: multiply;
+        }
+
+        .server-title {
+            font-size: 36px;
+            margin: 15px 0 8px;
+            background: linear-gradient(to right, #ff8c00, #ffa500, #ff6b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            font-weight: 700;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .server-info {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 140, 0, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 140, 0, 0.15);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #ff8c00;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Анимированный лоадер */
+        .loader-container {
+            margin: 30px auto;
+            width: 70px;
+            height: 70px;
+            position: relative;
+        }
+
+        .loader {
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(255, 140, 0, 0.2);
+            border-top: 3px solid #ff8c00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-inner {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 2px solid rgba(0, 150, 255, 0.3);
+            border-bottom: 2px solid #00a8ff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            color: #bbb;
+            margin-top: 15px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Прогресс бар */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 25px;
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8c00, #ffa500, #ff6b00);
+            background-size: 200% 100%;
+            animation: progress 4s ease-out infinite, gradient 2.5s linear infinite;
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.4);
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            60% { width: 80%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 140, 0, 0.2);
+            font-size: 13px;
+            color: #777;
+        }
+
+        .legacy-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 14px;
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            color: #ff8c00;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Адаптив для маленьких экранов */
+        @media (max-width: 500px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            .logo {
+                max-width: 220px;
+            }
+            .server-title {
+                font-size: 28px;
+            }
+            .subtitle {
+                font-size: 14px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Логотип -->
+        <div class="logo-container">
+            <img src="https://i.imgur.com/pSRT89R.png" alt="FLUX Logo" class="logo">
+        </div>
+        
+        <!-- Название сервера -->
+        <h1 class="server-title">FLUX CITY5</h1>
+        <div class="subtitle">Half-Life 2 Roleplay</div>
+        
+        <!-- Информация о сервере -->
+        <div class="server-info">
+            <div class="info-row">
+                <span class="info-label">🎮 Режим:</span>
+                <span class="info-value">HL2RP</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📌 Карта:</span>
+                <span class="info-value">rp_city5_*</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">👥 Игроков:</span>
+                <span class="info-value">0/128</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🌐 Статус:</span>
+                <span class="info-value" style="color: #00ff88;">● Онлайн</span>
+            </div>
+        </div>
+
+        <!-- Анимация загрузки -->
+        <div class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-inner"></div>
+        </div>
+        <div class="loading-text">Загрузка ресурсов...</div>
+        
+        <!-- Прогресс бар -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+
+        <!-- Футер -->
+        <div class="footer">
+            <p>© 2026 Flux City5</p>
+            <div class="legacy-badge">⚡ LEGACY ⚡</div>
+        </div>
+    </div>
+</body>
+</html>

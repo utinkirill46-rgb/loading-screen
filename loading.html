@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLUX CITY5 - Загрузка</title>
+    <title>λ Flux City5 | HL2RP</title>
     <style>
         * {
             margin: 0;
@@ -13,14 +13,13 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
             height: 100vh;
             overflow: hidden;
-            position: relative;
+            background: #0a0a0a;
+            color: #fff;
         }
 
-        /* Твой фон на весь экран */
+        /* Твой фон */
         .background {
             position: fixed;
             top: 0;
@@ -32,24 +31,27 @@
             z-index: -2;
         }
 
-        /* Затемнение фона */
+        /* Затемнение */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.3);
             z-index: -1;
         }
 
         /* Логотип слева вверху */
-        .logo-container {
+        .logo {
             position: absolute;
-            top: 30px;
-            left: 40px;
+            top: 40px;
+            left: 50px;
+            width: 180px;
+            height: auto;
             z-index: 10;
             animation: fadeInLeft 1s ease-out;
+            filter: drop-shadow(0 0 15px rgba(0, 150, 255, 0.5));
         }
 
         @keyframes fadeInLeft {
@@ -63,13 +65,7 @@
             }
         }
 
-        .logo {
-            width: 180px;
-            height: auto;
-            filter: drop-shadow(0 0 15px rgba(0, 150, 255, 0.6));
-        }
-
-        /* Центральная часть с названием */
+        /* Центральная часть */
         .center-content {
             position: absolute;
             top: 50%;
@@ -77,16 +73,30 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 10;
+            width: 90%;
+            max-width: 800px;
         }
 
         .welcome-text {
-            font-size: 18px;
+            font-size: 16px;
             color: #ff8c00;
             letter-spacing: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-transform: uppercase;
-            opacity: 0.9;
-            animation: fadeIn 1s ease-out 0.2s both;
+            opacity: 0;
+            animation: fadeInDown 1s ease-out 0.3s forwards;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .server-name {
@@ -94,27 +104,32 @@
             font-weight: 900;
             color: #fff;
             text-shadow: 
-                0 0 20px rgba(255, 140, 0, 0.8),
-                0 0 40px rgba(255, 140, 0, 0.5),
-                0 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 30px rgba(255, 140, 0, 0.9),
+                0 0 60px rgba(255, 140, 0, 0.6),
+                0 4px 10px rgba(0, 0, 0, 0.9);
             letter-spacing: 4px;
-            margin-bottom: 15px;
-            animation: glow 2s ease-in-out infinite;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: glowPulse 2s ease-in-out infinite, fadeIn 1s ease-out 0.5s forwards;
         }
 
-        @keyframes glow {
+        @keyframes glowPulse {
             0%, 100% { 
                 text-shadow: 
                     0 0 20px rgba(255, 140, 0, 0.8),
                     0 0 40px rgba(255, 140, 0, 0.5),
-                    0 4px 8px rgba(0, 0, 0, 0.8);
+                    0 4px 10px rgba(0, 0, 0, 0.9);
             }
             50% { 
                 text-shadow: 
                     0 0 30px rgba(255, 140, 0, 1),
                     0 0 60px rgba(255, 140, 0, 0.8),
-                    0 4px 8px rgba(0, 0, 0, 0.8);
+                    0 4px 10px rgba(0, 0, 0, 0.9);
             }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         .server-mode {
@@ -122,160 +137,185 @@
             color: #ccc;
             letter-spacing: 6px;
             text-transform: uppercase;
-            opacity: 0.85;
-            animation: fadeIn 1s ease-out 0.4s both;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.7s forwards;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
-        /* Информация о сервере (справа или по центру) */
-        .server-info {
+        /* Инфо о сервере */
+        .server-stats {
             position: absolute;
-            bottom: 150px;
+            bottom: 180px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px 40px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 1s ease-out 0.6s both;
+            display: flex;
+            gap: 30px;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
         }
 
         @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translate(-50%, 20px); 
+                transform: translateY(20px); 
             }
             to { 
                 opacity: 1; 
-                transform: translate(-50%, 0); 
+                transform: translateY(0); 
             }
         }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 8px 0;
-            gap: 40px;
+        .stat-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .info-label {
+        .stat-label {
+            font-size: 12px;
             color: #ff8c00;
-            font-weight: 600;
-            font-size: 14px;
-            min-width: 100px;
-            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
         }
 
-        .info-value {
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
             color: #fff;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: right;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
 
-        /* Индикатор загрузки внизу по центру */
+        /* Прогресс бар */
         .loading-container {
             position: absolute;
-            bottom: 80px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            text-align: center;
-            width: 600px;
-            animation: fadeInUp 1s ease-out 0.8s both;
+            width: 700px;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.1s forwards;
         }
 
         .loading-text {
             font-size: 14px;
             color: #ff8c00;
             margin-bottom: 12px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
         }
 
         .progress-container {
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 5px;
             overflow: hidden;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
+            border: 2px solid rgba(255, 140, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #ff8c00, #ffa500, #ff6b00);
-            background-size: 200% 100%;
-            animation: progress 4s ease-out infinite, gradient 2.5s linear infinite;
-            box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+            background: linear-gradient(90deg, #ff8c00, #ffa500, #ff6b00, #ff8c00);
+            background-size: 300% 100%;
+            width: 0%;
+            animation: load 6s ease-out forwards, gradient 2s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.8);
         }
 
-        @keyframes progress {
+        @keyframes load {
             0% { width: 0%; }
-            60% { width: 85%; }
+            20% { width: 25%; }
+            40% { width: 45%; }
+            60% { width: 65%; }
+            80% { width: 85%; }
             100% { width: 100%; }
         }
 
         @keyframes gradient {
             0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
+            100% { background-position: 300% center; }
         }
 
-        /* Lambda символ слева внизу */
+        /* Lambda символ */
         .lambda {
             position: absolute;
-            bottom: 80px;
-            left: 40px;
-            width: 50px;
-            height: 50px;
-            opacity: 0.6;
-            animation: pulse 2s ease-in-out infinite;
+            bottom: 100px;
+            left: 50px;
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.3s forwards, pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.9; }
         }
 
-        /* Tip текст внизу */
+        /* Tip текст */
         .tip-container {
             position: absolute;
-            bottom: 40px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             max-width: 600px;
-            animation: fadeIn 1s ease-out 1s both;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
         }
 
         .tip-label {
             color: #ff8c00;
-            font-weight: 600;
+            font-weight: 700;
             margin-right: 8px;
         }
 
         /* LEGACY бейдж */
         .legacy-badge {
             position: absolute;
-            bottom: 40px;
-            right: 40px;
-            padding: 6px 16px;
+            bottom: 50px;
+            right: 50px;
+            padding: 8px 20px;
             background: rgba(255, 140, 0, 0.15);
-            border: 1px solid rgba(255, 140, 0, 0.3);
+            border: 2px solid rgba(255, 140, 0, 0.4);
             border-radius: 6px;
-            font-size: 11px;
+            font-size: 12px;
             color: #ff8c00;
             letter-spacing: 3px;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 700;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.7s forwards;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Частицы (опционально) */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.3;
         }
 
         /* Адаптив */
@@ -285,17 +325,22 @@
             }
             .server-mode {
                 font-size: 14px;
-                letter-spacing: 3px;
             }
             .logo {
                 width: 120px;
+                top: 20px;
+                left: 20px;
             }
-            .server-info {
-                width: 90%;
-                padding: 15px 20px;
+            .server-stats {
+                flex-direction: column;
+                bottom: 200px;
+            }
+            .stat-box {
+                min-width: 250px;
             }
             .loading-container {
                 width: 90%;
+                bottom: 120px;
             }
         }
     </style>
@@ -305,39 +350,37 @@
     <div class="background"></div>
     <div class="overlay"></div>
 
-    <!-- Логотип слева вверху -->
-    <div class="logo-container">
-        <img src="logo.png" alt="FLUX" class="logo">
-    </div>
+    <!-- Логотип -->
+    <img src="logo.png" alt="FLUX" class="logo">
 
     <!-- Центральная часть -->
     <div class="center-content">
         <div class="welcome-text">Welcome to</div>
-        <h1 class="server-name">FLUX CITY5</h1>
+        <h1 class="server-name">λ FLUX CITY5</h1>
         <div class="server-mode">Half-Life 2 Roleplay</div>
     </div>
 
-    <!-- Информация о сервере -->
-    <div class="server-info">
-        <div class="info-row">
-            <span class="info-label">🎮 Режим:</span>
-            <span class="info-value">HL2RP</span>
+    <!-- Статистика сервера -->
+    <div class="server-stats">
+        <div class="stat-box">
+            <div class="stat-label">🎮 Режим</div>
+            <div class="stat-value">HL2RP</div>
         </div>
-        <div class="info-row">
-            <span class="info-label">📌 Карта:</span>
-            <span class="info-value">rp_city5_*</span>
+        <div class="stat-box">
+            <div class="stat-label">📌 Карта</div>
+            <div class="stat-value">rp_city5_*</div>
         </div>
-        <div class="info-row">
-            <span class="info-label">👥 Игроков:</span>
-            <span class="info-value">0/128</span>
+        <div class="stat-box">
+            <div class="stat-label">👥 Игроков</div>
+            <div class="stat-value" id="players">0/128</div>
         </div>
-        <div class="info-row">
-            <span class="info-label">🌐 Статус:</span>
-            <span class="info-value" style="color: #00ff88;">● Онлайн</span>
+        <div class="stat-box">
+            <div class="stat-label">🌐 Статус</div>
+            <div class="stat-value" style="color: #00ff88;">Онлайн</div>
         </div>
     </div>
 
-    <!-- Загрузка -->
+    <!-- Прогресс бар -->
     <div class="loading-container">
         <div class="loading-text">Downloading addons...</div>
         <div class="progress-container">
@@ -347,7 +390,7 @@
 
     <!-- Lambda символ -->
     <svg class="lambda" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 10 L80 90 L65 90 L50 50 L35 90 L20 90 Z" fill="#ff8c00" opacity="0.8"/>
+        <path d="M50 10 L80 90 L65 90 L50 50 L35 90 L20 90 Z" fill="#ff8c00"/>
     </svg>
 
     <!-- Tip текст -->
@@ -358,5 +401,18 @@
 
     <!-- LEGACY бейдж -->
     <div class="legacy-badge">⚡ LEGACY ⚡</div>
+
+    <!-- Скрипт для обновления онлайна (опционально) -->
+    <script>
+        // Здесь можно добавить получение реального онлайна через API
+        // Пока стоит статичное значение
+        function updatePlayers() {
+            // Пример: 0/128
+            // Можно заменить на реальные данные через fetch()
+        }
+        
+        // Обновлять каждые 30 секунд
+        setInterval(updatePlayers, 30000);
+    </script>
 </body>
 </html>
